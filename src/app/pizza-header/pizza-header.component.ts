@@ -12,4 +12,8 @@ export class PizzaHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  onClick(){
+    alert('Hi Yukesh!!');
+  }
+
 }
