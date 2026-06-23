@@ -1,85 +1,53 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
-import {
-   debounceTime, distinctUntilChanged, switchMap
- } from 'rxjs/operators';
- 
-import { Pizza }         from '../pizza';
-import { PizzaService }  from '../pizza.service';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { UpperCasePipe } from '@angular/common';
+import { PizzaService } from '../pizza.service';
 
 @Component({
   selector: 'app-pizza-main-layout',
+  standalone: true,
+  imports: [
+    RouterLink, FormsModule,
+    MatSidenavModule, MatButtonModule, MatButtonToggleModule,
+    MatSelectModule, MatSliderModule, MatCardModule, MatChipsModule,
+    MatIconModule, MatBadgeModule, MatDividerModule, MatFormFieldModule
+  ],
   templateUrl: './pizza-main-layout.component.html',
-  styleUrls: ['./pizza-main-layout.component.css']
+  styleUrl: './pizza-main-layout.component.css'
 })
+export class PizzaMainLayoutComponent {
+  readonly pizzaService = inject(PizzaService);
 
-export class PizzaMainLayoutComponent implements OnInit {
-  pizzas: Pizza[];
-  pizzas$: Observable<Pizza[]>;
-  private searchTerms = new Subject<any>();
-  
-  selectedBase: string;
-  selectedType: string;
-  price: number;
-  pizzaToggle : string;
+  readonly bases = ['Thin Crust', 'Regular base', 'Flat bread', 'Multigrain'];
+  readonly types = ['Cheese burst', 'Cheese topping', 'No cheese'];
 
-  bases = [
-    {value: 'Thin Crust', viewValue: 'Thin Crust'},
-    {value: 'Regular base', viewValue: 'Regular base'},
-    {value: 'Flat bread', viewValue: 'Flat bread'},
-    {value: 'Multigrain ', viewValue: 'Multigrain'}
-  ];
-
-  types = [
-    {value: 'Cheese burst', viewValue: 'Cheese burst'},
-    {value: 'Cheese topping', viewValue: 'Cheese topping'},
-    {value: 'No cheese ', viewValue: 'No cheese'}
-  ];
-
-
-  constructor(private pizzaService: PizzaService) { }
-
-  ngOnInit() : void {
-
-    this.pizzas$ = this.searchTerms.pipe(
-
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
- 
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
- 
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => this.pizzaService.searchPizza(term)),
-    );
-   
+  setToggle(val: string): void {
+    const current = this.pizzaService.filter().toggle;
+    this.pizzaService.updateFilter({ toggle: current === val ? '' : val });
   }
-   
- 
- /*Set value for toggle and call search function*/
-  setToggleValue(term: any): void {
 
-   this.pizzaToggle = term
-   this.search();
-
+  updateMaxPrice(val: number): void {
+    this.pizzaService.updateFilter({ maxPrice: val });
   }
-   
-/*Search pizza based on filters*/
-   search() : void{
 
-    if(this.selectedBase === undefined )
-      this.selectedBase = '';
-    if(this.selectedType === undefined )
-      this.selectedType = '';
-    if(this.pizzaToggle === undefined)
-      this.pizzaToggle = '';
-    
-   let term= [this.pizzaToggle,this.selectedBase,this.selectedType];
-   
-   // Push a search term into the observable stream.
-   this.searchTerms.next(term);
+  updateBase(val: string): void {
+    this.pizzaService.updateFilter({ base: val });
   }
-  
 
+  updateType(val: string): void {
+    this.pizzaService.updateFilter({ type: val });
+  }
 }
+

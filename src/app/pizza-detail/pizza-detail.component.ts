@@ -1,34 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-
-import { Pizza } from '../pizza';
+import { Component, inject, input, computed } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 import { PizzaService } from '../pizza.service';
 
 @Component({
   selector: 'app-pizza-detail',
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule, MatChipsModule, MatDividerModule],
   templateUrl: './pizza-detail.component.html',
-  styleUrls: ['./pizza-detail.component.css']
+  styleUrl: './pizza-detail.component.css'
 })
-export class PizzaDetailComponent implements OnInit {
-  pizza: Pizza;
-  constructor(
-  	private route: ActivatedRoute,
-    private pizzaService: PizzaService,
-    private location: Location) { }
+export class PizzaDetailComponent {
+  readonly id = input.required<string>();
 
-  ngOnInit() {
-    this.getPizza();
-  }
+  private readonly pizzaService = inject(PizzaService);
+  private readonly router = inject(Router);
 
-  getPizza(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.pizzaService.getPizza(id)
-      .subscribe(pizza => this.pizza = pizza);
-  }
+  readonly pizza = computed(() => this.pizzaService.getPizza(+this.id()));
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/menu']);
   }
-
 }
+

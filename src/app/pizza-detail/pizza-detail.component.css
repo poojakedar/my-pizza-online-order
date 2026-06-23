@@ -1,8 +1,150 @@
+.detail-page {
+  min-height: 100vh;
+  background: #111118;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
 
-.pizza-list {
-  display: inline-block;
+.detail-card {
+  max-width: 42rem;
+  width: 100%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(145deg, #1e1f2e, #252640);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-image {
   position: relative;
-  top: -65px;
+  height: 18rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(124,45,18,0.3), rgba(127,29,29,0.3));
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #1e1f2e 10%, transparent 60%);
+}
+
+.back-btn {
+  position: absolute !important;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+}
+
+.veg-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+
+.veg-badge.veg {
+  background: rgba(34, 197, 94, 0.3);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+}
+
+.veg-badge.nonveg {
+  background: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.detail-body {
+  padding: 2rem;
+}
+
+.detail-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.detail-subtitle {
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+}
+
+.attr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.attr-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.attr-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.attr-value {
+  color: white;
+  font-weight: 500;
+}
+
+.detail-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6b7280;
+}
+
+.price-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #f4a261;
+}
+
+.cart-btn {
+  background: #e63946 !important;
+  color: white !important;
+  border-radius: 999px !important;
+  padding: 0 2rem !important;
+  height: 48px !important;
+  font-size: 1rem !important;
+}
+
+.not-found {
+  text-align: center;
+  padding: 6rem 0;
+}
+
+.back-link {
+  margin-top: 1.5rem !important;
+  border-radius: 999px !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #9ca3af !important;
+}
+
 }
 
 .pizza-card {

@@ -1,4 +1,4 @@
-export class Pizza {
+export interface Pizza {
   id: number;
   name: string;
   init: string;
@@ -8,3 +8,11 @@ export class Pizza {
   base: string;
   type: string;
 }
+
+export interface PizzaFilter {
+  toggle: string;
+  base: string;
+  type: string;
+  maxPrice: number;
+}
+

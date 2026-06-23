@@ -1,67 +1,53 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable, signal, computed } from '@angular/core';
+import { Pizza, PizzaFilter } from './pizza';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { Pizza } from './pizza';
-
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PizzaService {
-  private pizzaURL = 'api/pizzas'; // URL to web api
+  private readonly allPizzas: Pizza[] = [
+    { id: 11, name: 'Margherita', init: 'v', pizza: 'Veg', image: 'assets/1.png', price: 200, base: 'Thin Crust', type: 'Cheese burst' },
+    { id: 12, name: 'Farmhouse', init: 'v', pizza: 'Veg', image: 'assets/2.png', price: 300, base: 'Multigrain', type: 'Cheese burst' },
+    { id: 13, name: 'Pepperoni', init: 'n', pizza: 'Non Veg', image: 'assets/3.png', price: 400, base: 'Regular base', type: 'Cheese burst' },
+    { id: 14, name: 'Veggie Delight', init: 'v', pizza: 'Veg', image: 'assets/4.png', price: 299, base: 'Flat bread', type: 'Cheese burst' },
+    { id: 15, name: 'Paneer Tikka', init: 'v', pizza: 'Veg', image: 'assets/5.png', price: 350, base: 'Thin Crust', type: 'Cheese burst' },
+    { id: 16, name: 'BBQ Chicken', init: 'n', pizza: 'Non Veg', image: 'assets/6.png', price: 450, base: 'Flat bread', type: 'Cheese burst' },
+    { id: 17, name: 'Garden Fresh', init: 'v', pizza: 'Veg', image: 'assets/7.png', price: 250, base: 'Thin Crust', type: 'No cheese' },
+    { id: 18, name: 'Chicken Supreme', init: 'n', pizza: 'Non Veg', image: 'assets/8.png', price: 499, base: 'Multigrain', type: 'Cheese burst' },
+    { id: 19, name: 'Spicy Paneer', init: 'v', pizza: 'Veg', image: 'assets/1.png', price: 320, base: 'Thin Crust', type: 'Cheese burst' },
+    { id: 20, name: 'Mediterranean', init: 'v', pizza: 'Veg', image: 'assets/2.png', price: 380, base: 'Flat bread', type: 'Cheese topping' },
+    { id: 21, name: 'Zesty Chicken', init: 'n', pizza: 'Non Veg', image: 'assets/3.png', price: 420, base: 'Regular base', type: 'Cheese burst' },
+    { id: 22, name: 'Cheesy Corn', init: 'v', pizza: 'Veg', image: 'assets/4.png', price: 270, base: 'Multigrain', type: 'Cheese burst' },
+  ];
 
-  constructor(private http: HttpClient) { }
+  // Reactive filter state using signals
+  readonly filter = signal<PizzaFilter>({
+    toggle: '',
+    base: '',
+    type: '',
+    maxPrice: 600,
+  });
 
-  /* GET pizzas based on search term */
-  searchPizza(term): Observable<Pizza[]> {
-    console.log("GET", term);
+  // Derived filtered list
+  readonly pizzas = computed(() => {
+    const f = this.filter();
+    return this.allPizzas.filter(p => {
+      if (f.toggle && p.init !== f.toggle) return false;
+      if (f.base && p.base !== f.base) return false;
+      if (f.type && p.type !== f.type) return false;
+      if (p.price > f.maxPrice) return false;
+      return true;
+    });
+  });
 
-    let url = `assets/pizza.json`;
-    // Add safe, URL encoded search parameter if there is a search term
-    const options = term ?
-      { params: new HttpParams().set('init', term[0]).set('base', term[1]).set('type', term[2]) } : {};
-    console.log(options);
-    return this.http.get<Pizza[]>(this.pizzaURL, options)
-      .pipe(
-      tap(_ => this.log(`fetched pizza based oon search term ${term}`)),
-      catchError(this.handleError<Pizza[]>('searchPizzas', []))
-      );
+  getPizza(id: number): Pizza | undefined {
+    return this.allPizzas.find(p => p.id === id);
   }
 
-  /** GET pizza by id. Will 404 if id not found */
-  getPizza(id: number): Observable<Pizza> {
-    const url = `${this.pizzaURL}/${id}`;
-    return this.http.get<Pizza>(url).pipe(
-      tap(_ => this.log(`fetched pizza id=${id}`)),
-      catchError(this.handleError<Pizza>(`getPizza id=${id}`))
-    );
+  updateFilter(partial: Partial<PizzaFilter>): void {
+    this.filter.update(f => ({ ...f, ...partial }));
   }
 
-  /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-       console.error(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
-  /** Log a HeroService message with the MessageService */
-  private log(message: string) {
-    console.error('PizzaService: ' + message);
+  resetFilter(): void {
+    this.filter.set({ toggle: '', base: '', type: '', maxPrice: 600 });
   }
 }
+

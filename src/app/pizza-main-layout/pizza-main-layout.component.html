@@ -1,55 +1,158 @@
-<mat-sidenav-container class="pizza-container">
-  
-  <!-- Side nav -->
-  <mat-sidenav mode="side" class="pizza-sidenav" opened>
-    <mat-button-toggle-group #group="matButtonToggleGroup" id="mtbt">
-      <mat-button-toggle (click)="setToggleValue('v')" mat-raised-button id="Veg" value="v">Veg</mat-button-toggle>
-      <mat-button-toggle (click)="setToggleValue('n')" mat-raised-button id="NonVeg" value="n">Non Veg</mat-button-toggle>
-    </mat-button-toggle-group>
-    <br/><br/>
-    <label for="price-range">Price Range</label><br/>
-    <mat-slider id="price-range" min="100" max="600" [(ngModel)]="price" thumbLabel></mat-slider>
-    <br/>
-    <form>
-      <mat-form-field>
-        <mat-select (selectionChange)="search()" [(ngModel)]="selectedBase" placeholder="Favorite base" name="base">
-          <mat-option *ngFor="let base of bases" [value]="base.value">
-            {{base.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br/>
-      <mat-form-field>
-        <mat-select (selectionChange)="search()" placeholder="Favorite type" [(ngModel)]="selectedType" name="type">
-          <mat-option *ngFor="let type of types" [value]="type.value">
-            {{type.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
+﻿<mat-sidenav-container class="!min-h-screen !bg-[#111118]">
+
+  <!-- Sidebar filter panel -->
+  <mat-sidenav mode="side" opened class="!w-64 !bg-[#1a1a24] !border-r !border-white/10">
+    <div class="p-6 space-y-6">
+      <div>
+        <h2 class="text-lg font-semibold text-white mb-1">Filters</h2>
+        <p class="text-xs text-gray-400">Refine your pizza selection</p>
+      </div>
+
+      <mat-divider class="!border-white/10" />
+
+      <!-- Veg / Non-Veg toggle -->
+      <div class="space-y-2">
+        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">Type</label>
+        <div class="flex gap-2">
+          <button mat-stroked-button
+                  [class.active-filter]="pizzaService.filter().toggle === 'v'"
+                  (click)="setToggle('v')"
+                  class="!flex-1 !rounded-full !text-sm">
+            Veg
+          </button>
+          <button mat-stroked-button
+                  [class.active-filter]="pizzaService.filter().toggle === 'n'"
+                  (click)="setToggle('n')"
+                  class="!flex-1 !rounded-full !text-sm">
+            Non-Veg
+          </button>
+        </div>
+      </div>
+
+      <!-- Price slider -->
+      <div class="space-y-2">
+        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">
+          Max Price
+          <span class="ml-2 text-white font-semibold">&#8377;{{ pizzaService.filter().maxPrice }}</span>
+        </label>
+        <mat-slider min="100" max="600" step="50" class="!w-full">
+          <input matSliderThumb
+                 [value]="pizzaService.filter().maxPrice"
+                 (valueChange)="updateMaxPrice($event)" />
+        </mat-slider>
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>&#8377;100</span><span>&#8377;600</span>
+        </div>
+      </div>
+
+      <!-- Base selector -->
+      <div class="space-y-2">
+        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">Base</label>
+        <mat-form-field appearance="outline" class="!w-full filter-field">
+          <mat-select [value]="pizzaService.filter().base"
+                      (selectionChange)="updateBase($event.value)"
+                      placeholder="All bases">
+            <mat-option value="">All bases</mat-option>
+            @for (base of bases; track base) {
+              <mat-option [value]="base">{{ base }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Type selector -->
+      <div class="space-y-2">
+        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">Cheese</label>
+        <mat-form-field appearance="outline" class="!w-full filter-field">
+          <mat-select [value]="pizzaService.filter().type"
+                      (selectionChange)="updateType($event.value)"
+                      placeholder="All types">
+            <mat-option value="">All types</mat-option>
+            @for (type of types; track type) {
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Reset -->
+      <button mat-stroked-button (click)="pizzaService.resetFilter()"
+              class="!w-full !rounded-full !border-white/20 !text-gray-400 hover:!text-white hover:!border-white/40">
+        <mat-icon class="!text-sm mr-1">refresh</mat-icon>
+        Reset filters
+      </button>
+    </div>
   </mat-sidenav>
 
   <!-- Main content -->
-  <mat-sidenav-content>
+  <mat-sidenav-content class="!bg-[#111118]">
+    <div class="p-8">
 
-    <mat-card *ngFor="let pizza of pizzas$ | async" class="pizza-card">
-      <mat-card-header class="pizza-card-header">
-        <mat-card-title><h3>{{ pizza.name | uppercase }} </h3></mat-card-title>
+      <!-- Header row -->
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="menu-title text-3xl font-bold text-white">Our Menu</h1>
+          <p class="text-gray-400 mt-1">{{ pizzaService.pizzas().length }} pizzas available</p>
+        </div>
+        <!-- Active filter chips -->
+        <div class="flex gap-2 flex-wrap justify-end">
+          @if (pizzaService.filter().toggle) {
+            <mat-chip class="!bg-green-900/60 !text-green-300 !text-xs">
+              {{ pizzaService.filter().toggle === 'v' ? 'Veg' : 'Non-Veg' }}
+            </mat-chip>
+          }
+          @if (pizzaService.filter().base) {
+            <mat-chip class="!bg-orange-900/60 !text-orange-300 !text-xs">
+              {{ pizzaService.filter().base }}
+            </mat-chip>
+          }
+        </div>
+      </div>
 
-      </mat-card-header>
-      <mat-card-content>
-        <img width="150" src="{{pizza.image}}" alt="Photo of pizza">
-        <ul class="pizza-list">
-          <li>{{pizza.base}}</li>
-          <li>{{pizza.type}}</li>
-          <li>{{pizza.pizza}}</li>
+      <!-- Pizza grid -->
+      @if (pizzaService.pizzas().length > 0) {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          @for (pizza of pizzaService.pizzas(); track pizza.id) {
+            <div class="pizza-card group rounded-2xl overflow-hidden cursor-pointer"
+                 [routerLink]="['/detail', pizza.id]">
+              <!-- Image -->
+              <div class="relative overflow-hidden h-48">
+                <img [src]="pizza.image" [alt]="pizza.name"
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                     onerror="this.src='https://placehold.co/300x200/2b2d42/e63946?text=Pizza'">
+                <span class="veg-badge absolute top-3 left-3"
+                      [class.veg]="pizza.init === 'v'"
+                      [class.nonveg]="pizza.init === 'n'">
+                  {{ pizza.init === 'v' ? 'Veg' : 'Non-Veg' }}
+                </span>
+              </div>
+              <!-- Content -->
+              <div class="p-4">
+                <h3 class="pizza-name font-bold text-white text-base mb-1 truncate">{{ pizza.name }}</h3>
+                <p class="text-xs text-gray-400 line-clamp-1 mb-3">{{ pizza.base }} &middot; {{ pizza.type }}</p>
+                <div class="flex items-center justify-between">
+                  <span class="pizza-price text-lg font-bold">&#8377;{{ pizza.price }}</span>
+                  <button mat-mini-fab class="add-btn" aria-label="Add to cart">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Empty state -->
+        <div class="flex flex-col items-center justify-center py-24 text-center">
+          <span class="text-6xl mb-4">&#127829;</span>
+          <h3 class="text-xl font-semibold text-white mb-2">No pizzas found</h3>
+          <p class="text-gray-400 mb-6">Try adjusting your filters</p>
+          <button mat-raised-button (click)="pizzaService.resetFilter()" class="clear-btn">
+            Clear filters
+          </button>
+        </div>
+      }
 
-        </ul>
-      </mat-card-content>
-      <div class="pizza-card-bottom">Rs. {{pizza.price}} /-</div>
-      <mat-card-actions class="pizza-card-bottom">
-        <button routerLink="/detail/{{pizza.id}}" mat-raised-button>ADD</button>
-      </mat-card-actions>
-    </mat-card>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+

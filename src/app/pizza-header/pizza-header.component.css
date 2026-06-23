@@ -1,5 +1,9 @@
-.pizza-header-space {
- margin-left: 250px;
+.active-link {
+  color: #e63946 !important;
+  background: rgba(230, 57, 70, 0.1) !important;
+}
 
+:host {
+  display: block;
 }
 

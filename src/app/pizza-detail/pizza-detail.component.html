@@ -1,19 +1,67 @@
+﻿<div class="detail-page">
+  @if (pizza(); as p) {
+    <div class="detail-card">
 
-<mat-card *ngIf="pizza" class="pizza-card">
-  <mat-card-header>
-    <mat-card-title><h3>{{ pizza.name | uppercase }} Details </h3></mat-card-title>
-    <mat-card-subtitle>{{pizza.pizza}}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="{{pizza.image}}" alt="Photo of pizza">
-  <mat-card-content >
-    <ul>
-      <li>Base: {{pizza.base}}</li>
-      <li>Type {{pizza.type}}</li>
-      <li>Price: {{pizza.price}}</li>
-    </ul>
+      <!-- Hero image -->
+      <div class="hero-image">
+        <img [src]="p.image" [alt]="p.name"
+             class="w-full h-full object-cover"
+             onerror="this.src='https://placehold.co/700x300/2b2d42/e63946?text=Pizza'">
+        <div class="hero-overlay"></div>
 
-  </mat-card-content>
-  <mat-card-actions class="pizza-back-btn">
-    <button (click)="goBack()" mat-raised-button>Back</button>
-  </mat-card-actions>
-</mat-card>
+        <!-- Back button -->
+        <button mat-icon-button (click)="goBack()" class="back-btn" aria-label="Go back">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <!-- Veg badge -->
+        <span class="veg-badge"
+              [class.veg]="p.init === 'v'"
+              [class.nonveg]="p.init === 'n'">
+          {{ p.init === 'v' ? 'Vegetarian' : 'Non-Vegetarian' }}
+        </span>
+      </div>
+
+      <!-- Details -->
+      <div class="detail-body">
+        <h1 class="detail-title">{{ p.name }}</h1>
+        <p class="detail-subtitle">{{ p.pizza }}</p>
+
+        <mat-divider class="!border-white/10 !mb-6" />
+
+        <!-- Attribute grid -->
+        <div class="attr-grid">
+          <div class="attr-item">
+            <p class="attr-label">Base</p>
+            <p class="attr-value">{{ p.base }}</p>
+          </div>
+          <div class="attr-item">
+            <p class="attr-label">Cheese</p>
+            <p class="attr-value">{{ p.type }}</p>
+          </div>
+        </div>
+
+        <!-- Price & CTA -->
+        <div class="detail-footer">
+          <div>
+            <p class="price-label">Price</p>
+            <p class="price-value">&#8377;{{ p.price }}</p>
+          </div>
+          <button mat-raised-button class="cart-btn">
+            <mat-icon class="mr-2">shopping_cart</mat-icon>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+    </div>
+  } @else {
+    <div class="not-found">
+      <span class="text-5xl mb-4 block">&#128269;</span>
+      <p class="text-gray-400 text-lg">Pizza not found</p>
+      <button mat-stroked-button (click)="goBack()" class="back-link">
+        Back to menu
+      </button>
+    </div>
+  }
+</div>
