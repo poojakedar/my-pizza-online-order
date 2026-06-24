@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'pizza-purple': '#8b5cf6',
-        'pizza-purple-light': '#a78bfa',
+        'pizza-teal': '#14b8a6',
+        'pizza-teal-light': '#2dd4bf',
         'pizza-orange': '#f4a261',
         'pizza-dark': '#1d1e2c',
         'pizza-card': '#2b2d42',

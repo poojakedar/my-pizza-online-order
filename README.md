@@ -168,9 +168,9 @@ my-pizza-online-order/
 ## 🎨 Design & Styling
 
 ### Color Scheme
-- **Primary Color**: Purple (#8b5cf6) - Main accent throughout the app
+- **Primary Color**: Teal (#14b8a6) - Main accent throughout the app
 - **Secondary Color**: Dark background (#111118) - Main background
-- **Accent Color**: Yellow - Used in Material M3 tertiary
+- **Accent Color**: Orange (#f97316) - Complementary accent used for highlights
 - **Tertiary**: Material M3 default colors for interactive elements
 
 ### Dark Theme
