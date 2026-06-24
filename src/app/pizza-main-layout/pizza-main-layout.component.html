@@ -132,7 +132,9 @@
                 <p class="text-xs text-gray-400 line-clamp-1 mb-3">{{ pizza.base }} &middot; {{ pizza.type }}</p>
                 <div class="flex items-center justify-between">
                   <span class="pizza-price text-lg font-bold">&#8377;{{ pizza.price }}</span>
-                  <button mat-mini-fab class="add-btn" aria-label="Add to cart">
+                  <button mat-mini-fab class="add-btn" 
+                          (click)="addToCart(pizza); $event.stopPropagation()"
+                          aria-label="Add to cart">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>

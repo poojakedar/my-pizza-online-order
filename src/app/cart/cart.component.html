@@ -1,0 +1,128 @@
+<div class="min-h-screen bg-[#111118]">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 shadow-lg"
+          style="background: linear-gradient(135deg, #1d1e2c 0%, #2b2d42 100%); border-bottom: 1px solid rgba(139,92,246,0.3);">
+    <div class="flex items-center gap-4 px-6 py-4">
+      <button mat-icon-button (click)="continueShopping()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="text-2xl font-bold text-white flex-1" style="font-family: 'Playfair Display', serif;">Your Cart</h1>
+      <span class="text-lg font-semibold" style="color: #8b5cf6;">{{ cartService.totalItems() }} items</span>
+    </div>
+  </header>
+
+  <div class="max-w-4xl mx-auto px-6 py-8">
+    @if (cartService.totalItems() > 0) {
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2 space-y-4">
+          @for (item of cartService.cart(); track item.id) {
+            <div class="bg-[#1e1f2e] rounded-lg p-4 flex gap-4 shadow-lg border border-white/5">
+              <!-- Pizza Image -->
+              <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                <img [src]="item.image" [alt]="item.name"
+                     class="w-full h-full object-cover"
+                     onerror="this.src='https://placehold.co/100x100/2b2d42/8b5cf6?text=Pizza'">
+              </div>
+
+              <!-- Item Details -->
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-white mb-1">{{ item.name }}</h3>
+                <p class="text-sm text-gray-400 mb-3">{{ item.base }} &middot; {{ item.type }}</p>
+
+                <!-- Quantity & Price -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2 bg-[#111118] rounded-lg px-3 py-1">
+                    <button mat-icon-button (click)="updateQuantity(item.id, item.quantity - 1)" 
+                            [disabled]="item.quantity <= 1"
+                            class="!w-8 !h-8">
+                      <mat-icon class="!text-lg">remove</mat-icon>
+                    </button>
+                    <span class="min-w-6 text-center text-white font-semibold">{{ item.quantity }}</span>
+                    <button mat-icon-button (click)="updateQuantity(item.id, item.quantity + 1)"
+                            class="!w-8 !h-8">
+                      <mat-icon class="!text-lg">add</mat-icon>
+                    </button>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-2xl font-bold" style="color: #8b5cf6;">&#8377;{{ item.price * item.quantity }}</p>
+                    <p class="text-xs text-gray-500">&#8377;{{ item.price }} each</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Remove Button -->
+              <button mat-icon-button (click)="removeItem(item.id)"
+                      class="self-start !text-red-500 hover:!bg-red-500/10">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-[#1e1f2e] rounded-lg p-6 sticky top-24 shadow-lg border border-white/5 space-y-4">
+            <h2 class="text-xl font-bold text-white">Order Summary</h2>
+            
+            <mat-divider class="!border-white/10" />
+
+            <div class="space-y-3">
+              <div class="flex justify-between text-gray-300">
+                <span>Subtotal</span>
+                <span>&#8377;{{ cartService.totalPrice() }}</span>
+              </div>
+              <div class="flex justify-between text-gray-300">
+                <span>Delivery</span>
+                <span class="text-green-400">FREE</span>
+              </div>
+              <div class="flex justify-between text-gray-300">
+                <span>Tax (5%)</span>
+                <span>&#8377;{{ (cartService.totalPrice() * 0.05).toFixed(2) }}</span>
+              </div>
+            </div>
+
+            <mat-divider class="!border-white/10" />
+
+            <div class="flex justify-between text-xl font-bold text-white">
+              <span>Total</span>
+              <span style="color: #8b5cf6;">&#8377;{{ (cartService.totalPrice() * 1.05).toFixed(2) }}</span>
+            </div>
+
+            <button mat-raised-button (click)="checkout()" 
+                    class="w-full !py-3 !text-base !font-bold !rounded-lg"
+                    style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); color: white;">
+              <mat-icon class="mr-2">payment</mat-icon>
+              Proceed to Checkout
+            </button>
+
+            <button mat-stroked-button (click)="continueShopping()" 
+                    class="w-full !border-white/20 !text-gray-300 hover:!text-white hover:!border-white/40">
+              <mat-icon class="mr-2">arrow_back</mat-icon>
+              Continue Shopping
+            </button>
+
+            <button mat-stroked-button (click)="clearCart()" 
+                    class="w-full !border-red-500/30 !text-red-400 hover:!border-red-500/60">
+              <mat-icon class="mr-2">delete_sweep</mat-icon>
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Empty Cart State -->
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <span class="text-8xl mb-6">🛒</span>
+        <h2 class="text-3xl font-bold text-white mb-3">Your cart is empty</h2>
+        <p class="text-gray-400 mb-8 text-lg">Start adding delicious pizzas to your order!</p>
+        <button mat-raised-button (click)="continueShopping()"
+                style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); color: white;"
+                class="!py-3 !px-8 !text-base !font-bold !rounded-lg">
+          <mat-icon class="mr-2">restaurant_menu</mat-icon>
+          Browse Menu
+        </button>
+      </div>
+    }
+  </div>
+</div>

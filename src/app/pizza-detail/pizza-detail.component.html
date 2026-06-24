@@ -47,7 +47,8 @@
             <p class="price-label">Price</p>
             <p class="price-value">&#8377;{{ p.price }}</p>
           </div>
-          <button mat-raised-button class="cart-btn">
+          <button mat-raised-button class="cart-btn"
+                  (click)="addToCart()">
             <mat-icon class="mr-2">shopping_cart</mat-icon>
             Add to Cart
           </button>

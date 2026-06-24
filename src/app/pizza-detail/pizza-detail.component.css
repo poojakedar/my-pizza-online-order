@@ -125,7 +125,7 @@
 }
 
 .cart-btn {
-  background: #e63946 !important;
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%) !important;
   color: white !important;
   border-radius: 999px !important;
   padding: 0 2rem !important;
@@ -143,8 +143,6 @@
   border-radius: 999px !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #9ca3af !important;
-}
-
 }
 
 .pizza-card {

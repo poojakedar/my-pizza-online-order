@@ -12,8 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UpperCasePipe } from '@angular/common';
 import { PizzaService } from '../pizza.service';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-pizza-main-layout',
@@ -22,16 +24,28 @@ import { PizzaService } from '../pizza.service';
     RouterLink, FormsModule,
     MatSidenavModule, MatButtonModule, MatButtonToggleModule,
     MatSelectModule, MatSliderModule, MatCardModule, MatChipsModule,
-    MatIconModule, MatBadgeModule, MatDividerModule, MatFormFieldModule
+    MatIconModule, MatBadgeModule, MatDividerModule, MatFormFieldModule, MatSnackBarModule
   ],
   templateUrl: './pizza-main-layout.component.html',
   styleUrl: './pizza-main-layout.component.css'
 })
 export class PizzaMainLayoutComponent {
   readonly pizzaService = inject(PizzaService);
+  readonly cartService = inject(CartService);
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly bases = ['Thin Crust', 'Regular base', 'Flat bread', 'Multigrain'];
   readonly types = ['Cheese burst', 'Cheese topping', 'No cheese'];
+
+  addToCart(pizza: any): void {
+    this.cartService.addToCart(pizza);
+    this.snackBar.open(`✓ ${pizza.name} added to cart`, 'View Cart', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['snackbar-success']
+    });
+  }
 
   setToggle(val: string): void {
     const current = this.pizzaService.filter().toggle;

@@ -1,11 +1,11 @@
 <header class="sticky top-0 z-50 shadow-lg"
-        style="background: linear-gradient(135deg, #1d1e2c 0%, #2b2d42 100%); border-bottom: 1px solid rgba(230,57,70,0.3);">
+        style="background: linear-gradient(135deg, #1d1e2c 0%, #2b2d42 100%); border-bottom: 1px solid rgba(139,92,246,0.3);">
   <mat-toolbar class="!bg-transparent !px-6 !h-16">
     <!-- Brand -->
     <a routerLink="/menu" class="flex items-center gap-3 no-underline group">
       <span class="text-2xl">🍕</span>
       <span class="font-bold text-xl tracking-tight"
-            style="font-family: 'Playfair Display', serif; color: #e63946;">
+            style="font-family: 'Playfair Display', serif; color: #8b5cf6;">
         PizzaCraft
       </span>
     </a>
@@ -19,11 +19,14 @@
         <mat-icon class="!text-sm mr-1">restaurant_menu</mat-icon>
         Menu
       </a>
-      <button mat-icon-button
-              style="color: #e63946;"
-              aria-label="Cart">
+      <a routerLink="/cart" mat-icon-button
+         style="color: #8b5cf6;"
+         [matBadge]="cartService.totalItems()"
+         matBadgeColor="accent"
+         [matBadgeHidden]="cartService.totalItems() === 0"
+         aria-label="Cart">
         <mat-icon>shopping_cart</mat-icon>
-      </button>
+      </a>
     </nav>
   </mat-toolbar>
 </header>

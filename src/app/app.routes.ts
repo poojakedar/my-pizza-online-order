@@ -15,5 +15,12 @@ export const routes: Routes = [
       import('./pizza-detail/pizza-detail.component').then(
         m => m.PizzaDetailComponent
       )
+  },
+  {
+    path: 'cart',
+    loadComponent: () =>
+      import('./cart/cart.component').then(
+        m => m.CartComponent
+      )
   }
 ];

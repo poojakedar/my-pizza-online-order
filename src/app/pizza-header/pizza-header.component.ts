@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-pizza-header',
@@ -12,5 +13,7 @@ import { MatBadgeModule } from '@angular/material/badge';
   templateUrl: './pizza-header.component.html',
   styleUrl: './pizza-header.component.css'
 })
-export class PizzaHeaderComponent {}
+export class PizzaHeaderComponent {
+  readonly cartService = inject(CartService);
+}
 
