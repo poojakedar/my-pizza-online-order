@@ -27,9 +27,12 @@ A modern, full-featured pizza ordering web application built with **Angular 20**
 - **Snackbar Notifications**: Toast notifications when items are added to cart with 3-second duration
 - **Real-time Updates**: Cart badge displays total item count dynamically
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Dark Theme**: Modern dark-themed UI with purple accent colors
+- **Dark Theme**: Modern dark-themed UI with teal and orange accent colors
 - **Material Design**: Google Material M3 design system implementation
 - **Smooth Animations**: Material animations on component interactions
+- **Unit Testing**: Comprehensive test suite with Karma + Jasmine
+- **E2E Testing**: Full end-to-end tests with Playwright across multiple browsers
+- **Code Coverage**: Automated coverage reporting for unit tests
 
 ### Technical Features
 - **Standalone Components**: Modern Angular 20 standalone architecture (no NgModules)
@@ -49,6 +52,9 @@ A modern, full-featured pizza ordering web application built with **Angular 20**
 | **Tailwind CSS** | 3.4 | Utility-first CSS |
 | **Angular Material** | 20.x (M3) | UI components & design system |
 | **RxJS** | 7.x | Reactive programming |
+| **Karma** | 6.4 | Unit test runner |
+| **Jasmine** | 5.1 | Unit testing framework |
+| **Playwright** | 1.40+ | E2E testing framework |
 | **Node.js** | 22.18.0 | Runtime |
 
 ---
@@ -103,16 +109,30 @@ npm run build
 # Includes minification, tree-shaking, and code splitting
 ```
 
-### Testing
+### Unit Testing
 ```bash
 npm test
-# Runs unit tests with Karma test runner
+# Runs unit tests in watch mode (development)
+# Watches for file changes and re-runs tests automatically
+
+npm run test:ci
+# Runs unit tests once with code coverage (CI mode)
+# Uses ChromeHeadlessCI browser for automated environments
 ```
 
 ### E2E Testing
 ```bash
 npm run e2e
-# Runs end-to-end tests with Protractor
+# Runs all end-to-end tests in headless mode
+# Tests across Chromium, Firefox, and WebKit browsers
+
+npm run e2e:ui
+# Opens Playwright Test UI for interactive debugging
+# Run specific tests or debug failing tests visually
+
+npm run e2e:debug
+# Runs tests with Playwright Inspector
+# Step through tests line by line with debugger
 ```
 
 ---
@@ -167,18 +187,33 @@ my-pizza-online-order/
 
 ## 🎨 Design & Styling
 
-### Color Scheme
-- **Primary Color**: Teal (#14b8a6) - Main accent throughout the app
-- **Secondary Color**: Dark background (#111118) - Main background
-- **Accent Color**: Orange (#f97316) - Complementary accent used for highlights
+### Color Scheme (Modern Teal & Orange)
+- **Primary Color**: Teal (#14b8a6) - Main accent used for:
+  - Add to cart buttons (with gradient to #2dd4bf)
+  - Active filter pills
+  - Cart item prices
+  - Header branding and icons
+  - Links and navigation elements
+- **Primary Light**: Light Teal (#2dd4bf) - Used in gradients and hover states
+- **Secondary Color**: Dark background (#111118) - Main page background
+- **Card Background**: Dark navy (#1e1f2e) - Pizza cards and containers
+- **Accent Color**: Orange (#f97316) - Complementary accent used for:
+  - Clear/reset buttons
+  - Delete item buttons
+  - Secondary actions
+- **Text**: White with opacity variations for contrast
 - **Tertiary**: Material M3 default colors for interactive elements
 
 ### Dark Theme
 The entire application uses a modern dark theme with:
+- Dark main background (#111118)
 - Dark card backgrounds (#1e1f2e)
-- Light text for contrast
-- Purple accent colors for call-to-action elements
+- Dark header background (#1d1e2c)
+- Light text with opacity variations for contrast
+- Teal accent colors (#14b8a6) for call-to-action elements
+- Orange accents (#f97316) for secondary actions
 - Material M3 design tokens
+- Custom teal scrollbar styling
 
 ### Responsive Breakpoints
 - **Mobile**: < 768px
@@ -213,7 +248,53 @@ const totalPrice = computed(() => items().reduce(...));
 
 ---
 
-## 🛒 Shopping Cart Features
+## 🧪 Testing & Quality Assurance
+
+### Unit Testing with Karma + Jasmine
+Comprehensive unit test suite with:
+- **Component Tests**: All components tested for creation and basic functionality
+- **Service Tests**: Business logic validation
+- **Coverage Reports**: HTML and LCOV format coverage reports
+- **Configuration**: `src/karma.conf.js` and `src/test.ts`
+
+**Test Files**:
+```
+src/app/
+├── app.component.spec.ts
+├── pizza-header/pizza-header.component.spec.ts
+├── pizza-main-layout/pizza-main-layout.component.spec.ts
+├── pizza-detail/pizza-detail.component.spec.ts
+└── cart/cart.component.spec.ts
+```
+
+### End-to-End Testing with Playwright
+Full user workflow testing across multiple browsers:
+- **Test Coverage**: 15+ test cases covering:
+  - Menu page (pizza cards, filters, add to cart)
+  - Header navigation (brand display, cart badge)
+  - Cart management (items, quantities, totals, tax)
+  - Detail page (pizza information, add to cart)
+  - Responsive design (mobile, tablet, desktop)
+- **Multi-Browser**: Chromium, Firefox, WebKit
+- **Mobile Testing**: iPhone 12, Pixel 5 viewports
+- **Configuration**: `playwright.config.ts`
+- **Test File**: `e2e/src/app.spec.ts`
+
+### Running Tests
+```bash
+# Unit Tests
+npm test           # Watch mode
+npm run test:ci    # CI mode with coverage
+
+# E2E Tests
+npm run e2e        # Headless (all browsers)
+npm run e2e:ui     # Interactive UI mode
+npm run e2e:debug  # Debug mode with Inspector
+```
+
+For detailed testing documentation, see [TESTING.md](TESTING.md).
+
+---
 
 ### Add to Cart
 - Click "Add to cart" button on any pizza
@@ -276,6 +357,9 @@ This application was recently upgraded from Angular 6 to Angular 20 with:
 ✅ **TypeScript 5.8** - Latest language features
 ✅ **Lazy Loading** - Optimized routing
 ✅ **External Templates** - Separated HTML/CSS files
+✅ **Modern Testing** - Karma + Jasmine (unit tests)
+✅ **Playwright E2E** - Modern E2E testing framework
+✅ **Teal & Orange Theme** - Modern color scheme
 
 ---
 
@@ -329,9 +413,9 @@ The application includes 12 hand-picked pizzas:
 
 ### App won't start?
 ```bash
-# Clear node_modules and reinstall
-rm -r node_modules
-npm install
+# Clear node_modules and reinstall with legacy peer deps
+rm -r node_modules package-lock.json
+npm install --legacy-peer-deps
 ```
 
 ### Port 4200 already in use?
@@ -347,9 +431,39 @@ rm -rf .angular/cache
 npm run build
 ```
 
+### Unit tests not running?
+```bash
+# Verify Chrome is installed or use ChromeHeadless
+# Check karma.conf.js for browser configuration
+npm run test:ci --browsers=ChromeHeadless
+```
+
+### E2E tests timing out?
+```bash
+# Ensure development server is running
+npm start
+
+# In another terminal
+npm run e2e
+
+# Or use UI mode to debug
+npm run e2e:ui
+```
+
 ---
 
-## 📄 License
+## � Additional Documentation
+
+- **[TESTING.md](TESTING.md)** - Comprehensive testing guide
+  - Unit testing setup and best practices
+  - E2E testing with Playwright
+  - CI/CD integration examples
+  - Test configuration details
+  - Writing new tests
+
+---
+
+## �📄 License
 
 This project is open source and available for educational purposes.
 
