@@ -1,19 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PizzaHeaderComponent } from './pizza-header.component';
+import { provideRouter } from '@angular/router';
 
 describe('PizzaHeaderComponent', () => {
   let component: PizzaHeaderComponent;
   let fixture: ComponentFixture<PizzaHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PizzaHeaderComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PizzaHeaderComponent],
+      providers: [provideRouter([])]
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PizzaHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

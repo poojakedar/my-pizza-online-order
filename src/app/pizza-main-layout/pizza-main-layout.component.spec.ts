@@ -1,19 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PizzaMainLayoutComponent } from './pizza-main-layout.component';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('PizzaMainLayoutComponent', () => {
   let component: PizzaMainLayoutComponent;
   let fixture: ComponentFixture<PizzaMainLayoutComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PizzaMainLayoutComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PizzaMainLayoutComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideAnimationsAsync()
+      ]
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PizzaMainLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
