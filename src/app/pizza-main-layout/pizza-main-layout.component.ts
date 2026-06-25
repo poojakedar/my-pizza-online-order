@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -44,8 +44,14 @@ export class PizzaMainLayoutComponent {
   public readonly cartService = inject(CartService);
   private readonly snackBar = inject(MatSnackBar);
 
+  public readonly sidenavOpen = signal(true);
+
   public readonly bases = ["Thin Crust", "Regular base", "Flat bread", "Multigrain"];
   public readonly types = ["Cheese burst", "Cheese topping", "No cheese"];
+
+  public toggleSidenav(): void {
+    this.sidenavOpen.update((open) => !open);
+  }
 
   public addToCart(pizza: Pizza): void {
     this.cartService.addToCart(pizza);

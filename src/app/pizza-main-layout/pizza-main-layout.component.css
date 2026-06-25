@@ -22,6 +22,12 @@
 
 mat-sidenav {
   border-right: none;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+mat-sidenav-container {
+  overflow-x: hidden !important;
 }
 
 .menu-title {
