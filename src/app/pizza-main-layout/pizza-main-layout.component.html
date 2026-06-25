@@ -12,7 +12,7 @@
 
       <!-- Veg / Non-Veg toggle -->
       <div class="space-y-2">
-        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">Type</label>
+        <div class="text-xs font-medium text-gray-400 uppercase tracking-widest">Type</div>
         <div class="flex gap-2">
           <button mat-stroked-button
                   [class.active-filter]="pizzaService.filter().toggle === 'v'"
@@ -31,14 +31,15 @@
 
       <!-- Price slider -->
       <div class="space-y-2">
-        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">
+        <div class="text-xs font-medium text-gray-400 uppercase tracking-widest">
           Max Price
           <span class="ml-2 text-white font-semibold">&#8377;{{ pizzaService.filter().maxPrice }}</span>
-        </label>
+        </div>
         <mat-slider min="100" max="600" step="50" class="!w-full">
           <input matSliderThumb
                  [value]="pizzaService.filter().maxPrice"
-                 (valueChange)="updateMaxPrice($event)" />
+                 (valueChange)="updateMaxPrice($event)"
+                 aria-label="Max Price" />
         </mat-slider>
         <div class="flex justify-between text-xs text-gray-500">
           <span>&#8377;100</span><span>&#8377;600</span>
@@ -47,9 +48,10 @@
 
       <!-- Base selector -->
       <div class="space-y-2">
-        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">Base</label>
+        <label for="base-select" class="text-xs font-medium text-gray-400 uppercase tracking-widest">Base</label>
         <mat-form-field appearance="outline" class="!w-full filter-field">
-          <mat-select [value]="pizzaService.filter().base"
+          <mat-select id="base-select"
+                      [value]="pizzaService.filter().base"
                       (selectionChange)="updateBase($event.value)"
                       placeholder="All bases">
             <mat-option value="">All bases</mat-option>
@@ -62,9 +64,10 @@
 
       <!-- Type selector -->
       <div class="space-y-2">
-        <label class="text-xs font-medium text-gray-400 uppercase tracking-widest">Cheese</label>
+        <label for="type-select" class="text-xs font-medium text-gray-400 uppercase tracking-widest">Cheese</label>
         <mat-form-field appearance="outline" class="!w-full filter-field">
-          <mat-select [value]="pizzaService.filter().type"
+          <mat-select id="type-select"
+                      [value]="pizzaService.filter().type"
                       (selectionChange)="updateType($event.value)"
                       placeholder="All types">
             <mat-option value="">All types</mat-option>

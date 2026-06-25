@@ -1,13 +1,40 @@
-# Editor configuration, see http://editorconfig.org
+# EditorConfig helps maintain consistent coding styles
+# https://editorconfig.org
 root = true
 
+# All files
 [*]
 charset = utf-8
 indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+end_of_line = lf
 
+# TypeScript files
+[*.ts]
+max_line_length = 120
+
+# JavaScript files
+[*.js]
+max_line_length = 120
+
+# HTML files
+[*.html]
+max_line_length = 120
+indent_size = 2
+
+# SCSS/CSS files
+[*.{scss,css}]
+indent_size = 2
+max_line_length = 120
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# Markdown files
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
+

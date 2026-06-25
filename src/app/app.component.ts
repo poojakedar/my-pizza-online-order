@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { PizzaHeaderComponent } from './pizza-header/pizza-header.component';
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { PizzaHeaderComponent } from "./pizza-header/pizza-header.component";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [RouterOutlet, PizzaHeaderComponent],
   template: `
@@ -11,6 +11,6 @@ import { PizzaHeaderComponent } from './pizza-header/pizza-header.component';
     <main class="min-h-screen bg-[#111118]">
       <router-outlet />
     </main>
-  `
+  `,
 })
 export class AppComponent {}

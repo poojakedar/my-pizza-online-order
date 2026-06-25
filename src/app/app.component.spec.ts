@@ -1,21 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { AppComponent } from "./app.component";
+import { provideRouter } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 
-describe('AppComponent', () => {
+describe("AppComponent", () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideAnimationsAsync()
-      ]
+      providers: [provideRouter([]), provideHttpClient(), provideAnimationsAsync()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
@@ -23,7 +19,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the app', () => {
+  it("should create the app", () => {
     expect(component).toBeTruthy();
   });
 });

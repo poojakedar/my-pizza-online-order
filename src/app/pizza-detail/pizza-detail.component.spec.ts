@@ -1,21 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PizzaDetailComponent } from './pizza-detail.component';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { PizzaDetailComponent } from "./pizza-detail.component";
+import { provideRouter } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 
-describe('PizzaDetailComponent', () => {
+describe("PizzaDetailComponent", () => {
   let component: PizzaDetailComponent;
   let fixture: ComponentFixture<PizzaDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PizzaDetailComponent],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideAnimationsAsync()
-      ]
+      providers: [provideRouter([]), provideHttpClient(), provideAnimationsAsync()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PizzaDetailComponent);
@@ -23,7 +19,7 @@ describe('PizzaDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,15 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PizzaHeaderComponent } from './pizza-header.component';
-import { provideRouter } from '@angular/router';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { PizzaHeaderComponent } from "./pizza-header.component";
+import { provideRouter } from "@angular/router";
 
-describe('PizzaHeaderComponent', () => {
+describe("PizzaHeaderComponent", () => {
   let component: PizzaHeaderComponent;
   let fixture: ComponentFixture<PizzaHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PizzaHeaderComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PizzaHeaderComponent);
@@ -17,7 +17,7 @@ describe('PizzaHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

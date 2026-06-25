@@ -1,0 +1,7 @@
+# ESLint ignore file
+node_modules/
+dist/
+build/
+.angular/
+coverage/
+e2e/

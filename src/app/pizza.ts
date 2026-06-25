@@ -15,4 +15,3 @@ export interface PizzaFilter {
   type: string;
   maxPrice: number;
 }
-
