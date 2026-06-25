@@ -1,82 +1,151 @@
-﻿.pizza-card {
-  background: linear-gradient(145deg, #1e1f2e, #252640);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  transition: all 0.3s ease;
-}
-
-.pizza-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(20, 184, 166, 0.3);
-  border-color: rgba(20, 184, 166, 0.3) !important;
-}
-
-.active-filter {
-  background: rgba(20, 184, 166, 0.2) !important;
-  color: #14b8a6 !important;
-  border-color: #14b8a6 !important;
-}
-
-.filter-field .mat-mdc-text-field-wrapper {
-  background: rgba(255, 255, 255, 0.05) !important;
-}
-
+﻿/* ─── Sidenav ──────────────────────────────────────────────────────────────── */
 mat-sidenav {
   border-right: none;
+  background: var(--color-sidebar) !important;
+  border-right: 1px solid var(--color-border) !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
+  transition: var(--transition);
 }
 
 mat-sidenav-container {
   overflow-x: hidden !important;
+  background: var(--color-bg) !important;
 }
 
+/* ─── Filter sidebar labels ────────────────────────────────────────────────── */
+.filter-section-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ─── Filter field ─────────────────────────────────────────────────────────── */
+.filter-field .mat-mdc-text-field-wrapper {
+  background: var(--color-surface) !important;
+}
+
+/* ─── Active filter button ─────────────────────────────────────────────────── */
+.active-filter {
+  background: var(--color-primary-glow) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Prevent type toggle buttons from wrapping */
+mat-sidenav button[mat-stroked-button] {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ─── Main content background ──────────────────────────────────────────────── */
+.main-content {
+  background: var(--color-bg);
+  min-height: 100vh;
+  transition: var(--transition);
+}
+
+/* ─── Menu heading ─────────────────────────────────────────────────────────── */
 .menu-title {
   font-family: 'Playfair Display', serif;
+  color: var(--color-text-primary);
+}
+
+/* ─── Pizza card ───────────────────────────────────────────────────────────── */
+.pizza-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+.pizza-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-primary);
 }
 
 .pizza-name {
   font-family: 'Playfair Display', serif;
+  color: var(--color-text-primary);
+}
+
+.pizza-meta {
+  color: var(--color-text-muted);
 }
 
 .pizza-price {
-  color: #f4a261;
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
+/* ─── Add to cart button ───────────────────────────────────────────────────── */
 .add-btn {
-  background: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 100%) !important;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%) !important;
   color: white !important;
-  width: 32px !important;
-  height: 32px !important;
+  width: 36px !important;
+  height: 36px !important;
+  box-shadow: 0 4px 12px var(--color-primary-glow) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.add-btn:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 18px var(--color-primary-glow) !important;
 }
 
 .add-btn mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
 
-.clear-btn {
-  background: #f97316 !important;
-  color: white !important;
-  border-radius: 999px !important;
-}
-
+/* ─── Veg / Non-Veg badge ──────────────────────────────────────────────────── */
 .veg-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
   border-radius: 999px;
+  backdrop-filter: blur(4px);
 }
 
 .veg-badge.veg {
-  background: rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.18);
   color: #4ade80;
   border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
+html.light-theme .veg-badge.veg {
+  background: rgba(22, 163, 74, 0.1);
+  color: #16a34a;
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
 .veg-badge.nonveg {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.18);
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.4);
 }
+
+html.light-theme .veg-badge.nonveg {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+/* ─── Clear / reset buttons ────────────────────────────────────────────────── */
+.clear-btn {
+  background: var(--color-accent) !important;
+  color: white !important;
+  border-radius: var(--radius-btn) !important;
+}
+
+/* ─── Empty state ──────────────────────────────────────────────────────────── */
+.empty-title { color: var(--color-text-primary); }
+.empty-sub   { color: var(--color-text-secondary); }
+
 

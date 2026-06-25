@@ -4,68 +4,134 @@
 @use 'tailwindcss/components' as *;
 @use 'tailwindcss/utilities' as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-/* Angular Material M3 dark theme with purple primary */
-$pizza-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-  ),
-  typography: (
-    brand-family: 'Playfair Display, Georgia, serif',
-    plain-family: 'Inter, system-ui, sans-serif',
-  ),
-  density: (
-    scale: 0,
-  ),
+/* ─── Material M3 Theme Definitions ────────────────────────────────────────── */
+$pizza-dark: mat.define-theme((
+  color: (theme-type: dark),
+  typography: (brand-family: 'Playfair Display, Georgia, serif', plain-family: 'Inter, system-ui, sans-serif'),
+  density: (scale: 0),
+));
+
+$pizza-light: mat.define-theme((
+  color: (theme-type: light),
+  typography: (brand-family: 'Playfair Display, Georgia, serif', plain-family: 'Inter, system-ui, sans-serif'),
+  density: (scale: 0),
 ));
 
 html {
-  @include mat.all-component-themes($pizza-theme);
+  @include mat.all-component-themes($pizza-dark);
 }
 
-/* Global resets */
+html.light-theme {
+  @include mat.all-component-themes($pizza-light);
+}
+
+/* ─── CSS Custom Properties (Dark Theme — default) ──────────────────────────── */
+:root {
+  --color-bg:             #080811;
+  --color-surface:        #11111e;
+  --color-surface-raised: #17172a;
+  --color-surface-hover:  #1e1e32;
+  --color-sidebar:        #0d0d1c;
+  --color-header:         #0d0d1c;
+  --color-border:         rgba(255, 255, 255, 0.07);
+  --color-border-hover:   rgba(255, 255, 255, 0.15);
+
+  --color-text-primary:   #eeeef8;
+  --color-text-secondary: #9090b8;
+  --color-text-muted:     #555575;
+
+  --color-primary:        #14b8a6;
+  --color-primary-light:  #2dd4bf;
+  --color-primary-glow:   rgba(20, 184, 166, 0.18);
+  --color-accent:         #f97316;
+  --color-accent-glow:    rgba(249, 115, 22, 0.18);
+
+  --color-success:        #10b981;
+  --color-danger:         #ef4444;
+
+  --shadow-card:          0 4px 24px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover:    0 16px 48px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(20, 184, 166, 0.3);
+  --shadow-header:        0 2px 20px rgba(0, 0, 0, 0.6);
+
+  --radius-card:          16px;
+  --radius-btn:           999px;
+
+  --transition:           background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* ─── Light Theme Overrides ────────────────────────────────────────────────── */
+html.light-theme {
+  --color-bg:             #f2f2fa;
+  --color-surface:        #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-hover:  #f7f7ff;
+  --color-sidebar:        #fafaff;
+  --color-header:         #ffffff;
+  --color-border:         rgba(0, 0, 0, 0.09);
+  --color-border-hover:   rgba(0, 0, 0, 0.18);
+
+  --color-text-primary:   #18182e;
+  --color-text-secondary: #50506e;
+  --color-text-muted:     #9090a8;
+
+  --color-primary:        #0d9488;
+  --color-primary-light:  #14b8a6;
+  --color-primary-glow:   rgba(13, 148, 136, 0.1);
+  --color-accent:         #ea6c0d;
+  --color-accent-glow:    rgba(234, 108, 13, 0.1);
+
+  --color-success:        #059669;
+  --color-danger:         #dc2626;
+
+  --shadow-card:          0 2px 16px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover:    0 12px 36px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(13, 148, 136, 0.25);
+  --shadow-header:        0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Global Reset & Base ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body {
   height: 100%;
   margin: 0;
-  background: #111118;
-  color: #f0f0f5;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: var(--transition);
 }
 
-/* Custom scrollbar */
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #1a1a24; }
-::-webkit-scrollbar-thumb { background: #14b8a6; border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; opacity: 0.6; }
 
-/* Utility classes */
+/* ─── Typography ───────────────────────────────────────────────────────────── */
+.brand-font { font-family: 'Playfair Display', Georgia, serif; }
+
+/* ─── Snackbar ─────────────────────────────────────────────────────────────── */
+.snackbar-success {
+  background-color: var(--color-surface-raised) !important;
+  color: var(--color-success) !important;
+  border-left: 4px solid var(--color-success);
+  font-weight: 500;
+}
+
+/* ─── Active link ──────────────────────────────────────────────────────────── */
+.active-link {
+  color: var(--color-primary) !important;
+  border-bottom: 2px solid var(--color-primary) !important;
+  padding-bottom: 4px;
+}
+
+/* ─── Utility ──────────────────────────────────────────────────────────────── */
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* Snackbar custom styles */
-.snackbar-success {
-  background-color: #1e1f2e !important;
-  color: #10b981 !important;
-  border-left: 4px solid #10b981;
-  font-weight: 500;
-}
-
-.mdc-button--raised.snackbar-success {
-  background-color: #10b981 !important;
-  color: white !important;
-}
-
-/* Active link styles */
-.active-link {
-  border-bottom: 2px solid #14b8a6 !important;
-  padding-bottom: 4px;
 }
 

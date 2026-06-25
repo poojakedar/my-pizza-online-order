@@ -1,26 +1,33 @@
-<header class="sticky top-0 z-50 shadow-lg"
-        style="background: linear-gradient(135deg, #1d1e2c 0%, #2b2d42 100%); border-bottom: 1px solid rgba(20,184,166,0.3);">
-  <mat-toolbar class="!bg-transparent !px-6 !h-16">
+<header class="header">
+  <mat-toolbar class="header-toolbar">
     <!-- Brand -->
-    <a routerLink="/menu" class="flex items-center gap-3 no-underline group">
-      <span class="text-2xl">🍕</span>
-      <span class="font-bold text-xl tracking-tight"
-            style="font-family: 'Playfair Display', serif; color: #14b8a6;">
-        PizzaCraft
-      </span>
+    <a routerLink="/menu" class="brand no-underline">
+      <span class="brand-icon">🍕</span>
+      <span class="brand-name brand-font">PizzaCraft</span>
     </a>
 
     <span class="flex-1"></span>
 
     <!-- Nav links -->
-    <nav class="flex items-center gap-2">
+    <nav class="flex items-center gap-1">
       <a routerLink="/menu" routerLinkActive="active-link"
-         mat-button class="!text-gray-300 hover:!text-white !rounded-full">
-        <mat-icon class="!text-sm mr-1">restaurant_menu</mat-icon>
+         mat-button class="nav-link">
+        <mat-icon class="mr-1" style="font-size:18px;width:18px;height:18px;">restaurant_menu</mat-icon>
         Menu
       </a>
+
+      <!-- Theme toggle -->
+      <button mat-icon-button
+              class="theme-toggle"
+              [matTooltip]="themeService.isDark() ? 'Switch to Light mode' : 'Switch to Dark mode'"
+              (click)="themeService.toggleTheme()"
+              aria-label="Toggle theme">
+        <mat-icon>{{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <!-- Cart -->
       <a routerLink="/cart" mat-icon-button
-         style="color: #14b8a6;"
+         class="cart-btn"
          [matBadge]="cartService.totalItems()"
          matBadgeColor="accent"
          [matBadgeHidden]="cartService.totalItems() === 0"

@@ -1,34 +1,34 @@
-﻿<mat-sidenav-container class="!min-h-screen !bg-[#111118]">
+﻿<mat-sidenav-container class="!min-h-screen">
 
   <!-- Collapsible sidebar filter panel -->
-  <mat-sidenav #filterSidenav mode="over" [opened]="sidenavOpen()" (closedStart)="sidenavOpen.set(false)" class="!w-64 !bg-[#1a1a24] !border-r !border-white/10">
+  <mat-sidenav #filterSidenav mode="over" [opened]="sidenavOpen()" (closedStart)="sidenavOpen.set(false)" class="!w-64">
     <div class="p-6 space-y-6">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-lg font-semibold text-white">Filters</h2>
-          <p class="text-xs text-gray-400">Refine your selection</p>
+          <h2 class="text-base font-bold brand-font" style="color:var(--color-text-primary)">Filters</h2>
+          <p class="text-xs" style="color:var(--color-text-muted)">Refine your selection</p>
         </div>
-        <button mat-icon-button (click)="toggleSidenav()" class="lg:hidden">
-          <mat-icon>close</mat-icon>
+        <button mat-icon-button (click)="toggleSidenav()">
+          <mat-icon style="color:var(--color-text-secondary)">close</mat-icon>
         </button>
       </div>
 
-      <mat-divider class="!border-white/10" />
+      <mat-divider />
 
       <!-- Veg / Non-Veg toggle -->
       <div class="space-y-2">
-        <div class="text-xs font-medium text-gray-400 uppercase tracking-widest">Type</div>
+        <div class="filter-section-label">Type</div>
         <div class="flex gap-2">
           <button mat-stroked-button
                   [class.active-filter]="pizzaService.filter().toggle === 'v'"
                   (click)="setToggle('v')"
-                  class="!flex-1 !rounded-full !text-sm">
+                  class="!flex-1 !rounded-full !text-sm !min-w-0">
             Veg
           </button>
           <button mat-stroked-button
                   [class.active-filter]="pizzaService.filter().toggle === 'n'"
                   (click)="setToggle('n')"
-                  class="!flex-1 !rounded-full !text-sm">
+                  class="!flex-1 !rounded-full !text-sm !min-w-0">
             Non-Veg
           </button>
         </div>
@@ -36,9 +36,9 @@
 
       <!-- Price slider -->
       <div class="space-y-2">
-        <div class="text-xs font-medium text-gray-400 uppercase tracking-widest">
-          Max Price
-          <span class="ml-2 text-white font-semibold">&#8377;{{ pizzaService.filter().maxPrice }}</span>
+        <div class="filter-section-label flex justify-between items-center">
+          <span>Max Price</span>
+          <span class="text-sm font-bold" style="color:var(--color-primary)">&#8377;{{ pizzaService.filter().maxPrice }}</span>
         </div>
         <mat-slider min="100" max="600" step="50" class="!w-full">
           <input matSliderThumb
@@ -46,14 +46,14 @@
                  (valueChange)="updateMaxPrice($event)"
                  aria-label="Max Price" />
         </mat-slider>
-        <div class="flex justify-between text-xs text-gray-500">
+        <div class="flex justify-between text-xs" style="color:var(--color-text-muted)">
           <span>&#8377;100</span><span>&#8377;600</span>
         </div>
       </div>
 
       <!-- Base selector -->
       <div class="space-y-2">
-        <label for="base-select" class="text-xs font-medium text-gray-400 uppercase tracking-widest">Base</label>
+        <label for="base-select" class="filter-section-label">Base</label>
         <mat-form-field appearance="outline" class="!w-full filter-field">
           <mat-select id="base-select"
                       [value]="pizzaService.filter().base"
@@ -67,9 +67,9 @@
         </mat-form-field>
       </div>
 
-      <!-- Type selector -->
+      <!-- Cheese type selector -->
       <div class="space-y-2">
-        <label for="type-select" class="text-xs font-medium text-gray-400 uppercase tracking-widest">Cheese</label>
+        <label for="type-select" class="filter-section-label">Cheese</label>
         <mat-form-field appearance="outline" class="!w-full filter-field">
           <mat-select id="type-select"
                       [value]="pizzaService.filter().type"
@@ -85,55 +85,67 @@
 
       <!-- Reset -->
       <button mat-stroked-button (click)="pizzaService.resetFilter()"
-              class="!w-full !rounded-full !border-white/20 !text-gray-400 hover:!text-white hover:!border-white/40">
+              class="!w-full !rounded-full" style="color:var(--color-accent);border-color:var(--color-accent);">
         <mat-icon class="!text-sm mr-1">refresh</mat-icon>
-        Reset filters
+        Reset Filters
       </button>
     </div>
   </mat-sidenav>
 
   <!-- Main content -->
-  <mat-sidenav-content class="!bg-[#111118]">
-    <div class="p-8">
+  <mat-sidenav-content class="main-content">
+    <div class="p-6 md:p-8">
 
       <!-- Header row -->
       <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-4">
-          <!-- Filter toggle button (visible on mobile) -->
-          <button mat-icon-button (click)="toggleSidenav()" class="lg:hidden hover:!bg-white/10">
-            <mat-icon>tuned</mat-icon>
+        <div class="flex items-center gap-3">
+          <!-- Filter toggle button -->
+          <button mat-stroked-button (click)="toggleSidenav()"
+                  class="!rounded-full !text-sm !gap-1" style="color:var(--color-primary);border-color:var(--color-primary)">
+            <mat-icon style="font-size:18px;width:18px;height:18px;">tune</mat-icon>
+            Filters
           </button>
           <div>
-            <h1 class="menu-title text-3xl font-bold text-white">Our Menu</h1>
-            <p class="text-gray-400 mt-1">{{ pizzaService.pizzas().length }} pizzas available</p>
+            <h1 class="menu-title text-3xl font-bold">Our Menu</h1>
+            <p class="text-sm mt-0.5" style="color:var(--color-text-secondary)">{{ pizzaService.pizzas().length }} pizzas available</p>
           </div>
         </div>
         <!-- Active filter chips -->
         <div class="flex gap-2 flex-wrap justify-end">
           @if (pizzaService.filter().toggle) {
-            <mat-chip class="!bg-green-900/60 !text-green-300 !text-xs">
-              {{ pizzaService.filter().toggle === 'v' ? 'Veg' : 'Non-Veg' }}
-            </mat-chip>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full border"
+                  style="background:rgba(34,197,94,0.12);color:#4ade80;border-color:rgba(34,197,94,0.3)">
+              {{ pizzaService.filter().toggle === 'v' ? '🌿 Veg' : '🍗 Non-Veg' }}
+            </span>
           }
           @if (pizzaService.filter().base) {
-            <mat-chip class="!bg-orange-900/60 !text-orange-300 !text-xs">
+            <span class="text-xs font-semibold px-3 py-1 rounded-full border"
+                  style="background:var(--color-accent-glow);color:var(--color-accent);border-color:var(--color-accent)">
               {{ pizzaService.filter().base }}
-            </mat-chip>
+            </span>
+          }
+          @if (pizzaService.filter().type) {
+            <span class="text-xs font-semibold px-3 py-1 rounded-full border"
+                  style="background:var(--color-primary-glow);color:var(--color-primary);border-color:var(--color-primary)">
+              {{ pizzaService.filter().type }}
+            </span>
           }
         </div>
       </div>
 
       <!-- Pizza grid -->
       @if (pizzaService.pizzas().length > 0) {
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           @for (pizza of pizzaService.pizzas(); track pizza.id) {
-            <div class="pizza-card group rounded-2xl overflow-hidden cursor-pointer"
+            <div class="pizza-card group cursor-pointer"
                  [routerLink]="['/detail', pizza.id]">
               <!-- Image -->
-              <div class="relative overflow-hidden h-48">
+              <div class="relative overflow-hidden" style="height:180px">
                 <img [src]="pizza.image" [alt]="pizza.name"
                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                     onerror="this.src='https://placehold.co/300x200/2b2d42/e63946?text=Pizza'">
+                     onerror="this.src='https://placehold.co/300x200/11111e/14b8a6?text=🍕'">
+                <!-- Gradient overlay -->
+                <div class="absolute inset-0" style="background:linear-gradient(to top, var(--color-surface) 0%, transparent 55%)"></div>
                 <span class="veg-badge absolute top-3 left-3"
                       [class.veg]="pizza.init === 'v'"
                       [class.nonveg]="pizza.init === 'n'">
@@ -141,12 +153,12 @@
                 </span>
               </div>
               <!-- Content -->
-              <div class="p-4">
-                <h3 class="pizza-name font-bold text-white text-base mb-1 truncate">{{ pizza.name }}</h3>
-                <p class="text-xs text-gray-400 line-clamp-1 mb-3">{{ pizza.base }} &middot; {{ pizza.type }}</p>
+              <div class="p-4 pt-2">
+                <h3 class="pizza-name font-bold text-base mb-0.5 truncate">{{ pizza.name }}</h3>
+                <p class="pizza-meta text-xs line-clamp-1 mb-3">{{ pizza.base }} · {{ pizza.type }}</p>
                 <div class="flex items-center justify-between">
-                  <span class="pizza-price text-lg font-bold">&#8377;{{ pizza.price }}</span>
-                  <button mat-mini-fab class="add-btn" 
+                  <span class="pizza-price text-xl font-bold">&#8377;{{ pizza.price }}</span>
+                  <button mat-mini-fab class="add-btn"
                           (click)="addToCart(pizza); $event.stopPropagation()"
                           aria-label="Add to cart">
                     <mat-icon>add</mat-icon>
@@ -159,9 +171,9 @@
       } @else {
         <!-- Empty state -->
         <div class="flex flex-col items-center justify-center py-24 text-center">
-          <span class="text-6xl mb-4">&#127829;</span>
-          <h3 class="text-xl font-semibold text-white mb-2">No pizzas found</h3>
-          <p class="text-gray-400 mb-6">Try adjusting your filters</p>
+          <span class="text-7xl mb-5">🍕</span>
+          <h3 class="text-2xl font-bold empty-title mb-2">No pizzas found</h3>
+          <p class="empty-sub mb-6">Try adjusting your filters</p>
           <button mat-raised-button (click)="pizzaService.resetFilter()" class="clear-btn">
             Clear filters
           </button>
@@ -171,4 +183,3 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
