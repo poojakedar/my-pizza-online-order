@@ -38,12 +38,52 @@
 .qty-control {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: 10px;
-  padding: 0 4px;
+  padding: 2px;
   height: 36px;
+}
+
+.qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.qty-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: var(--color-primary-glow);
+  color: var(--color-primary);
+}
+
+.qty-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.qty-value {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
 }
 
 .summary-card {
@@ -57,8 +97,4 @@
   transition: var(--transition);
 }
 
-button[mat-icon-button][disabled] {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
